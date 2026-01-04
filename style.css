@@ -5,65 +5,71 @@
     --neon-pink: #ff00ff;
 }
 
+* { box-sizing: border-box; }
+
 body, html { 
     margin: 0; padding: 0; width: 100%; height: 100%; 
     background: var(--menu-green); font-family: 'Arial Black', sans-serif; 
-    overflow: hidden; position: fixed; /* Blocca rimbalzo iOS */
+    overflow-x: hidden; color: white;
 }
 
-.screen { 
-    width: 100%; height: 100vh; display: flex; 
-    flex-direction: column; align-items: center;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-}
-
+.screen { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 .hidden { display: none !important; }
 
 /* --- MENU --- */
 .menu-logo { width: 80%; max-width: 400px; margin: 20px 0; }
 #searchInput {
-    width: 85%; height: 50px; border-radius: 15px; border: 3px solid var(--level-yellow);
-    background: rgba(255, 255, 255, 0.1); color: white; text-align: center; margin-bottom: 15px;
+    width: 90%; max-width: 500px; height: 60px; border-radius: 15px;
+    border: 4px solid var(--level-yellow); background: rgba(0,0,0,0.3);
+    color: white; font-size: 1.2rem; text-align: center; margin-bottom: 20px;
 }
-.levels-list { width: 100%; overflow-y: auto; flex-grow: 1; gap: 10px; }
-.level-btn { width: 90%; background: var(--level-yellow); padding: 15px; border-radius: 15px; font-weight: bold; border: none; }
+.levels-list { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; padding-bottom: 20px; }
+.level-btn { 
+    width: 90%; max-width: 500px; background: var(--level-yellow); 
+    padding: 20px; border-radius: 15px; font-weight: bold; border: none; cursor: pointer; 
+}
 
 /* --- GIOCO --- */
-.game-header { display: flex; justify-content: space-between; width: 90%; padding: 10px 0; }
-.back-btn, .solve-btn { width: 45%; height: 40px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; }
+.game-header { display: flex; justify-content: space-around; width: 100%; padding: 10px; }
+.back-btn, .solve-btn { padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
 
-.board-main-wrapper { width: 100%; display: flex; justify-content: center; padding: 5px; box-sizing: border-box; }
-.wheel-table { 
-    border-spacing: 2px; background: #222; padding: 5px; 
-    border: 6px solid #555; border-radius: 10px; 
+.board-main-wrapper { width: 100%; padding: 5px; display: flex; justify-content: center; }
+
+.wheel-table {
+    background: #222; border: 8px solid #555; border-radius: 15px;
+    border-collapse: separate; border-spacing: 4px;
+    width: auto; /* Si adatta al contenuto */
 }
 
 .tile {
-    width: 6.2vw; height: 9vw; /* Proporzioni perfette per iPhone */
+    width: 6.5vw; height: 9vw; /* Dimensione fluida */
     max-width: 60px; max-height: 85px;
-    background-color: var(--tile-green); border-radius: 2px;
-    font-size: 5vw; text-align: center; vertical-align: middle; font-weight: bold;
+    background-color: var(--tile-green); border-radius: 4px;
+    text-align: center; font-size: 5vw; font-weight: bold;
 }
 
-.tile.active { background: white !important; border: 1px solid var(--neon-pink); color: transparent; }
+@media (min-width: 800px) { .tile { font-size: 40px; } }
+
+.tile.active { 
+    background: white !important; border: 2px solid var(--neon-pink); color: transparent; 
+}
+
 .tile.revealed { color: black !important; background: white !important; }
-.offset-tile { background: transparent !important; }
+.offset-tile { visibility: hidden; }
 
 .category-tag {
-    margin: 10px auto; padding: 5px 20px; background: white;
-    color: black; border-radius: 20px; font-size: 1rem; font-weight: bold;
+    margin: 15px 0; padding: 10px 30px; background: white; color: black;
+    border-radius: 30px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase;
 }
 
 .keyboard {
-    width: 100%; background: rgba(0,0,0,0.3); padding: 10px 0;
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 4px;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    width: 100%; max-width: 800px; display: flex; flex-wrap: wrap; 
+    justify-content: center; gap: 5px; padding: 10px; background: rgba(0,0,0,0.4);
 }
 
 .key {
-    width: 10.5%; height: 45px; background: #eee; border: none;
-    border-radius: 5px; font-size: 1.1rem; font-weight: bold;
-    box-shadow: 0 3px #999;
+    width: 11vw; height: 11vw; max-width: 55px; max-height: 55px;
+    background: #eee; border: none; border-radius: 5px;
+    font-size: 1.2rem; font-weight: bold; cursor: pointer;
 }
-.key:disabled { background: #444; color: #888; box-shadow: none; }
+.key:disabled { background: #444; color: #888; }
