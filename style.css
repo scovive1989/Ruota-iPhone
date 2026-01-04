@@ -1,0 +1,69 @@
+:root {
+    --menu-green: #113825;
+    --level-yellow: #ffed4a;
+    --tile-green: #006837;
+    --neon-pink: #ff00ff;
+}
+
+body, html { 
+    margin: 0; padding: 0; width: 100%; height: 100%; 
+    background: var(--menu-green); font-family: 'Arial Black', sans-serif; 
+    overflow: hidden; position: fixed; /* Blocca rimbalzo iOS */
+}
+
+.screen { 
+    width: 100%; height: 100vh; display: flex; 
+    flex-direction: column; align-items: center;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.hidden { display: none !important; }
+
+/* --- MENU --- */
+.menu-logo { width: 80%; max-width: 400px; margin: 20px 0; }
+#searchInput {
+    width: 85%; height: 50px; border-radius: 15px; border: 3px solid var(--level-yellow);
+    background: rgba(255, 255, 255, 0.1); color: white; text-align: center; margin-bottom: 15px;
+}
+.levels-list { width: 100%; overflow-y: auto; flex-grow: 1; gap: 10px; }
+.level-btn { width: 90%; background: var(--level-yellow); padding: 15px; border-radius: 15px; font-weight: bold; border: none; }
+
+/* --- GIOCO --- */
+.game-header { display: flex; justify-content: space-between; width: 90%; padding: 10px 0; }
+.back-btn, .solve-btn { width: 45%; height: 40px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; }
+
+.board-main-wrapper { width: 100%; display: flex; justify-content: center; padding: 5px; box-sizing: border-box; }
+.wheel-table { 
+    border-spacing: 2px; background: #222; padding: 5px; 
+    border: 6px solid #555; border-radius: 10px; 
+}
+
+.tile {
+    width: 6.2vw; height: 9vw; /* Proporzioni perfette per iPhone */
+    max-width: 60px; max-height: 85px;
+    background-color: var(--tile-green); border-radius: 2px;
+    font-size: 5vw; text-align: center; vertical-align: middle; font-weight: bold;
+}
+
+.tile.active { background: white !important; border: 1px solid var(--neon-pink); color: transparent; }
+.tile.revealed { color: black !important; background: white !important; }
+.offset-tile { background: transparent !important; }
+
+.category-tag {
+    margin: 10px auto; padding: 5px 20px; background: white;
+    color: black; border-radius: 20px; font-size: 1rem; font-weight: bold;
+}
+
+.keyboard {
+    width: 100%; background: rgba(0,0,0,0.3); padding: 10px 0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
+
+.key {
+    width: 10.5%; height: 45px; background: #eee; border: none;
+    border-radius: 5px; font-size: 1.1rem; font-weight: bold;
+    box-shadow: 0 3px #999;
+}
+.key:disabled { background: #444; color: #888; box-shadow: none; }
