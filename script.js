@@ -4,9 +4,33 @@ const livelli = [
     { id: 3, categoria: "IN UFFICIO", frase: "IN PAUSA CAFFÈ SI SPETTEGOLA TRA COLLEGHI" },
     { id: 4, categoria: "LA SCIMMIA", frase: "IN MOTO INDOSSA IL CASCO DI BANANE" },
     { id: 5, categoria: "METE TURISTICHE", frase: "IN ANDALUSIA CORDOBA E SIVIGLIA" },
+    { id: 6, categoria: "OGGETTI MITOLOGICI", frase: "IL VASO SCOPERCHIATO DI PANDORA" },
+    { id: 7, categoria: "NEGLI ABISSI", frase: "IL TRIDENTE DI POSEIDONE" },
     { id: 201, categoria: "1969 - NEW YORK", frase: "SBARCO SULLA LUNA DI NEIL ARMSTRONG" },
     { id: 202, categoria: "1989 - BERLINO", frase: "CADUTA DEL MURO E RIUNIFICAZIONE" },
-    { id: 203, categoria: "1492 - PALOS", frase: "CRISTOFORO COLOMBO SCOPRE L'AMERICA" }
+    { id: 203, categoria: "1492 - PALOS", frase: "CRISTOFORO COLOMBO SCOPRE L'AMERICA" },
+    { id: 204, categoria: "1945 - ROMA", frase: "FINE DELLA SECONDA GUERRA MONDIALE" },
+    { id: 205, categoria: "1789 - PARIGI", frase: "PRESA DELLA BASTIGLIA E RIVOLUZIONE" },
+    { id: 206, categoria: "79 DC - POMPEI", frase: "ERUZIONE DEL VESUVIO SULLA CITTA" },
+    { id: 207, categoria: "1912 - OCEANO ATLANTICO", frase: "AFFONDAMENTO DEL TRANSATLANTICO TITANIC" },
+    { id: 208, categoria: "1815 - WATERLOO", frase: "SCONFITTA DEFINITIVA DI NAPOLEONE" },
+    { id: 209, categoria: "1963 - DALLAS", frase: "ATTENTATO AL PRESIDENTE KENNEDY" },
+    { id: 210, categoria: "1929 - NEW YORK", frase: "IL GRANDE CROLLO DELLA BORSA" },
+    { id: 211, categoria: "1909 - PARIGI", frase: "PRIMO VOLO SULLA MANICA DI BLERIOT" },
+    { id: 212, categoria: "1901 - TERRANOVA", frase: "MARCONI RICEVE IL PRIMO SEGNALE RADIO" },
+    { id: 213, categoria: "1953 - LONDRA", frase: "INCORONAZIONE DELLA REGINA ELISABETTA" },
+    { id: 214, categoria: "1962 - CITTA DEL VATICANO", frase: "APERTURA DEL CONCILIO VATICANO SECONDO" },
+    { id: 215, categoria: "1936 - BERLINO", frase: "JESSE OWENS VINCE QUATTRO ORO" },
+    { id: 216, categoria: "1982 - MADRID", frase: "ITALIA CAMPIONE DEL MONDO DI CALCIO" },
+    { id: 217, categoria: "1990 - ROMA", frase: "NOTTI MAGICHE NEI MONDIALI ITALIANI" },
+    { id: 218, categoria: "1957 - ROMA", frase: "FIRMA DEI TRATTATI ISTITUTIVI DELLA CEE" },
+    { id: 219, categoria: "1977 - USA", frase: "ESCE AL CINEMA IL PRIMO STAR WARS" },
+    { id: 220, categoria: "1348 - FIRENZE", frase: "LA GRANDE PESTE NERA IN EUROPA" },
+    { id: 221, categoria: "1927 - PARIGI", frase: "LINDBERGH ATTERRA DOPO IL VOLO SOLO" },
+    { id: 222, categoria: "1961 - MOSCA", frase: "YURI GAGARIN NELLO SPAZIO" },
+    { id: 223, categoria: "1991 - MAASTRICHT", frase: "FIRMA DEL TRATTATO SULLA UNIONE EUROPEA" },
+    { id: 224, categoria: "1610 - PADOVA", frase: "GALILEO OSSERVA I SATELLITI DI GIOVE" },
+    { id: 225, categoria: "1954 - ITALIA", frase: "INIZIANO LE TRASMISSIONI DELLA RAI" }
 ];
 
 const rowCaps = [12, 14, 14, 12];
@@ -51,18 +75,26 @@ function setupBoard(frase) {
     let testRow = 0;
 
     words.forEach(w => {
-        let currentText = rowsData[testRow].join(' ');
-        let space = currentText.length > 0 ? 1 : 0;
-        if (currentText.length + space + w.length > rowCaps[testRow]) {
+        let currentRowText = rowsData[testRow].join(' ');
+        let spaceNeeded = currentRowText.length > 0 ? 1 : 0;
+        if (currentRowText.length + spaceNeeded + w.length > rowCaps[testRow]) {
             if (testRow < 3) testRow++;
         }
         rowsData[testRow].push(w);
     });
 
+    let usedRows = rowsData.filter(r => r.length > 0).length;
+    let startAt = usedRows === 1 ? 1 : (usedRows === 2 ? 1 : 0);
+    let finalRows = [[], [], [], []];
+    let targetRow = startAt;
+    rowsData.filter(r => r.length > 0).forEach(data => {
+        if (targetRow < 4) finalRows[targetRow++] = data;
+    });
+
     for (let i = 0; i < 4; i++) {
         const tr = document.getElementById(`row-${i+1}`);
         tr.innerHTML = '';
-        const txt = rowsData[i].join(' ');
+        const txt = finalRows[i].join(' ');
         const pad = Math.floor((rowCaps[i] - txt.length) / 2);
         
         for (let j = 0; j < 14; j++) {
@@ -90,7 +122,7 @@ function setupBoard(frase) {
 function setupKeyboard() {
     const kb = document.getElementById('keyboard');
     kb.innerHTML = '';
-    "ABCDEFGHILMNOPQRSTUVZ".split('').forEach(l => {
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(l => {
         const b = document.createElement('button');
         b.className = 'key';
         b.innerText = l;
@@ -103,7 +135,11 @@ function setupKeyboard() {
 }
 
 function revealLetter(l) {
-    const mapping = {'A':['A','À','Á'],'E':['E','È','É'],'I':['I','Ì','Í'],'O':['O','Ò','Ó'],'U':['U','Ù','Ú']};
+    const mapping = {
+        'A': ['A', 'À', 'Á', 'Â'], 'E': ['E', 'È', 'É', 'Ê'],
+        'I': ['I', 'Ì', 'Í', 'Î'], 'O': ['O', 'Ò', 'Ó', 'Ô'],
+        'U': ['U', 'Ù', 'Ú', 'Û']
+    };
     const targets = mapping[l] || [l];
     let found = false;
     document.querySelectorAll('.tile.active').forEach(t => {
@@ -113,21 +149,23 @@ function revealLetter(l) {
             found = true;
         }
     });
-    if (found && navigator.vibrate) navigator.vibrate(50); // Vibrazione iPhone/Android
     if (found) checkWin();
 }
 
 function checkWin() {
     const hidden = document.querySelectorAll('.tile.active:not(.revealed)');
-    if (hidden.length === 0) setTimeout(() => alert("BRAVO! HAI VINTO!"), 500);
+    if (hidden.length === 0) {
+        setTimeout(() => alert("HAI VINTO!"), 500);
+    }
 }
 
 function revealSolution() {
-    if(!confirm("Vedi soluzione?")) return;
+    if(!confirm("Vuoi visualizzare la soluzione completa?")) return;
     document.querySelectorAll('.tile.active').forEach(t => {
         t.classList.add('revealed');
         t.innerText = t.dataset.letter;
     });
+    document.querySelectorAll('.key').forEach(k => k.disabled = true);
 }
 
 window.onload = init;
